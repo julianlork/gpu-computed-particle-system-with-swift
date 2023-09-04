@@ -14,6 +14,7 @@
 		5BEEF8722AA62ED40076F186 /* ParticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEEF8712AA62ED40076F186 /* ParticleView.swift */; };
 		5BEEF8742AA62FD80076F186 /* ParticleRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEEF8732AA62FD80076F186 /* ParticleRenderer.swift */; };
 		5BEEF8762AA630AB0076F186 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 5BEEF8752AA630AB0076F186 /* .gitignore */; };
+		5BEEF87A2AA65EC70076F186 /* ParticleShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = 5BEEF8792AA65EC70076F186 /* ParticleShader.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		5BEEF8752AA630AB0076F186 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		5BEEF8772AA631520076F186 /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		5BEEF8782AA631830076F186 /* ParticleDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleDefinition.h; sourceTree = "<group>"; };
+		5BEEF8792AA65EC70076F186 /* ParticleShader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ParticleShader.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				5BEEF8712AA62ED40076F186 /* ParticleView.swift */,
 				5BEEF8732AA62FD80076F186 /* ParticleRenderer.swift */,
 				5BEEF8782AA631830076F186 /* ParticleDefinition.h */,
+				5BEEF8792AA65EC70076F186 /* ParticleShader.metal */,
 			);
 			path = ParticleView;
 			sourceTree = "<group>";
@@ -162,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BEEF8742AA62FD80076F186 /* ParticleRenderer.swift in Sources */,
+				5BEEF87A2AA65EC70076F186 /* ParticleShader.metal in Sources */,
 				5BEEF8632AA62E700076F186 /* ContentView.swift in Sources */,
 				5BEEF8722AA62ED40076F186 /* ParticleView.swift in Sources */,
 				5BEEF8612AA62E700076F186 /* gpu_computed_particle_system_with_swiftApp.swift in Sources */,
