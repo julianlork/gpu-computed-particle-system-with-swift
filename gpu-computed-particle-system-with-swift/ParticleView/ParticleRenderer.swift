@@ -97,27 +97,36 @@ extension ParticleRenderer: MTKViewDelegate {
         
         
         // Encode clear pass
+        
         commandEncoder.setComputePipelineState(self.clearPass)
         commandEncoder.setTexture(drawable.texture, index: 0)
-        let w = self.clearPass.threadExecutionWidth  /// thread width of a group (number of columns aka px)
-        let h = self.clearPass.maxTotalThreadsPerThreadgroup / w  /// thread height of a group (number of rows aka px) limited by max possible amount of threads per group
-        var threadsPerGroup = MTLSize(width: w, height: h, depth: 1)
-        var gridSize = MTLSize(width: drawable.texture.width, height: drawable.texture.height, depth: 1) /// grid is composed of threadgroups and covers the whole texture
-        commandEncoder.dispatchThreads(gridSize, threadsPerThreadgroup: threadsPerGroup)
-        
-        
+        self.encodeClearPassThreads(cmdEncoder: commandEncoder, drawable: drawable)
         
         // Encode draw pass
         commandEncoder.setComputePipelineState(self.drawDotPass)
         commandEncoder.setBuffer(self.particleBuffer, offset: 0, index: 0)
-        threadsPerGroup = MTLSize(width: w, height: 1, depth: 1)
-        gridSize = MTLSizeMake(Int(self.numParticles), 1, 1)
-        commandEncoder.dispatchThreads(gridSize, threadsPerThreadgroup: threadsPerGroup)
+        self.encodeDrawPassThreads(cmdEncoder: commandEncoder)
         
         commandEncoder.endEncoding()
         commandBuffer.present(drawable)
         commandBuffer.commit()
         
+    }
+    
+    func encodeClearPassThreads(cmdEncoder: MTLComputeCommandEncoder, drawable: CAMetalDrawable) {
+        let threadgroupWidth = self.clearPass.threadExecutionWidth  /// thread width of a group (number of columns aka px)
+        let threadgroupHeight = self.clearPass.maxTotalThreadsPerThreadgroup / threadgroupWidth  /// thread height of a group (number of rows aka px) limited by max possible amount of threads per group
+        let threadsPerGroup = MTLSize(width: threadgroupWidth, height: threadgroupHeight, depth: 1)
+        let gridSize = MTLSize(width: drawable.texture.width, height: drawable.texture.height, depth: 1) /// grid is composed of threadgroups and covers the whole texture
+        cmdEncoder.dispatchThreads(gridSize, threadsPerThreadgroup: threadsPerGroup)
+    }
+    
+    func encodeDrawPassThreads(cmdEncoder: MTLComputeCommandEncoder) {
+        //let threadgroupWidth = self.clearPass.threadExecutionWidth
+        let threadgroupWidth = min(self.drawDotPass.maxTotalThreadsPerThreadgroup, Int(self.numParticles))
+        let threadsPerGroup = MTLSize(width: threadgroupWidth, height: 1, depth: 1)
+        let gridSize = MTLSize(width: Int(self.numParticles), height: 1, depth: 1)
+        cmdEncoder.dispatchThreads(gridSize, threadsPerThreadgroup: threadsPerGroup)
     }
     
 

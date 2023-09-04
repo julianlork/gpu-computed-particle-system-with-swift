@@ -10,7 +10,7 @@ import MetalKit
 
 struct ParticleView: View {
     var body: some View {
-        ParticleSystem(numParticle: UInt(5e4))
+        ParticleSystem(numParticle: UInt(1e5))
     }
 }
 
