@@ -8,10 +8,9 @@
 import SwiftUI
 import MetalKit
 
-
 struct ParticleView: View {
     var body: some View {
-        ParticleSystem(numParticle: 1000)
+        ParticleSystem(numParticle: UInt(5e4))
     }
 }
 
