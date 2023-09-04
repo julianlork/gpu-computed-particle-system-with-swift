@@ -94,15 +94,10 @@ extension ParticleRenderer: MTKViewDelegate {
             let commandBuffer = self.commandQueue.makeCommandBuffer(),
             let commandEncoder = commandBuffer.makeComputeCommandEncoder() else { return }
         
-        
-        
-        // Encode clear pass
-        
         commandEncoder.setComputePipelineState(self.clearPass)
         commandEncoder.setTexture(drawable.texture, index: 0)
         self.encodeClearPassThreads(cmdEncoder: commandEncoder, drawable: drawable)
         
-        // Encode draw pass
         commandEncoder.setComputePipelineState(self.drawDotPass)
         commandEncoder.setBuffer(self.particleBuffer, offset: 0, index: 0)
         self.encodeDrawPassThreads(cmdEncoder: commandEncoder)
@@ -110,7 +105,6 @@ extension ParticleRenderer: MTKViewDelegate {
         commandEncoder.endEncoding()
         commandBuffer.present(drawable)
         commandBuffer.commit()
-        
     }
     
     func encodeClearPassThreads(cmdEncoder: MTLComputeCommandEncoder, drawable: CAMetalDrawable) {
@@ -122,13 +116,10 @@ extension ParticleRenderer: MTKViewDelegate {
     }
     
     func encodeDrawPassThreads(cmdEncoder: MTLComputeCommandEncoder) {
-        //let threadgroupWidth = self.clearPass.threadExecutionWidth
-        let threadgroupWidth = min(self.drawDotPass.maxTotalThreadsPerThreadgroup, Int(self.numParticles))
+        let threadgroupWidth = min(self.drawDotPass.maxTotalThreadsPerThreadgroup, Int(self.numParticles))  /// limit to number of particles
         let threadsPerGroup = MTLSize(width: threadgroupWidth, height: 1, depth: 1)
         let gridSize = MTLSize(width: Int(self.numParticles), height: 1, depth: 1)
         cmdEncoder.dispatchThreads(gridSize, threadsPerThreadgroup: threadsPerGroup)
     }
-    
-
     
 }
