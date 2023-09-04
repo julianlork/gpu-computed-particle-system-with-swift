@@ -26,6 +26,8 @@
 		5BEEF8712AA62ED40076F186 /* ParticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleView.swift; sourceTree = "<group>"; };
 		5BEEF8732AA62FD80076F186 /* ParticleRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticleRenderer.swift; sourceTree = "<group>"; };
 		5BEEF8752AA630AB0076F186 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		5BEEF8772AA631520076F186 /* Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		5BEEF8782AA631830076F186 /* ParticleDefinition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleDefinition.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 		5BEEF85F2AA62E700076F186 /* gpu-computed-particle-system-with-swift */ = {
 			isa = PBXGroup;
 			children = (
+				5BEEF8772AA631520076F186 /* Common.h */,
 				5BEEF8702AA62EB30076F186 /* ParticleView */,
 				5BEEF8602AA62E700076F186 /* gpu_computed_particle_system_with_swiftApp.swift */,
 				5BEEF8622AA62E700076F186 /* ContentView.swift */,
@@ -82,6 +85,7 @@
 			children = (
 				5BEEF8712AA62ED40076F186 /* ParticleView.swift */,
 				5BEEF8732AA62FD80076F186 /* ParticleRenderer.swift */,
+				5BEEF8782AA631830076F186 /* ParticleDefinition.h */,
 			);
 			path = ParticleView;
 			sourceTree = "<group>";
@@ -309,6 +313,7 @@
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/gpu-computed-particle-system-with-swift/Common.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -347,6 +352,7 @@
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/gpu-computed-particle-system-with-swift/Common.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
