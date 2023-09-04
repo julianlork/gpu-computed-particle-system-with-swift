@@ -8,9 +8,10 @@
 import SwiftUI
 import MetalKit
 
+
 struct ParticleView: View {
     var body: some View {
-        ParticleSystem()
+        ParticleSystem(numParticle: 1000)
     }
 }
 
@@ -27,6 +28,8 @@ typealias ViewRepresentable = UIViewRepresentable
 #endif
 
 struct ParticleSystem: ViewRepresentable {
+    
+    let numParticle: UInt
     
     #if os(macOS)
     func makeNSView(context: Context) -> some NSView {
@@ -53,6 +56,6 @@ struct ParticleSystem: ViewRepresentable {
     }
     
     func makeCoordinator() -> ParticleRenderer {
-        return ParticleRenderer()
+        return ParticleRenderer(numParticle)
     }
 }
