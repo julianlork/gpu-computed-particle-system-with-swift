@@ -63,9 +63,4 @@ kernel void drawPassFcn(texture2d<half, access::write> texture [[texture(0)]],
     texture.write(pxColor, texturePosition + uint2(0,1));
     texture.write(pxColor, texturePosition - uint2(1,0));
     texture.write(pxColor, texturePosition - uint2(0,1));
-    
-
 }
-
-
-
