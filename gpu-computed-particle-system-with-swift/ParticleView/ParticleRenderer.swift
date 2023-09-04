@@ -16,6 +16,7 @@ class ParticleRenderer: NSObject {
     let clearPass: MTLComputePipelineState
     let drawDotPass: MTLComputePipelineState
     let particleBuffer: MTLBuffer
+    let numParticles: UInt
     
     init(_ numParticle: UInt) {
         
@@ -34,6 +35,7 @@ class ParticleRenderer: NSObject {
         self.particleBuffer = particleBuffer
         self.clearPass = clearPass
         self.drawDotPass = drawPass
+        self.numParticles = numParticle
         super.init()
 
         self.view.device = device
@@ -70,9 +72,9 @@ class ParticleRenderer: NSObject {
         var particles: [Particle] = []
         
         for _ in 0...numParticle {
-            let particle = Particle(color: vector_float4(1, 1, 1, 1),
-                                    position: vector_float2(Float.random(in: 0...1), Float.random(in: 0...1)),  /// screen normalized coordinates where x=1 equals max width  and y=1 max height
-                                    velocity: vector_float2(Float.random(in: -1...1), Float.random(in: -1...1)))
+            let particle = Particle(color: simd_float4(1, 1, 1, 1),
+                                    position: simd_float2(Float.random(in: 0...1), Float.random(in: 0...1)),  /// screen normalized coordinates where x=1 equals max width  and y=1 max height
+                                    velocity: simd_float2(Float.random(in: -1...1), Float.random(in: -1...1)))
             particles.append(particle)
         }
         return particles
@@ -81,13 +83,45 @@ class ParticleRenderer: NSObject {
 
 extension ParticleRenderer: MTKViewDelegate {
     
+
+    
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
         
     }
     
     func draw(in view: MTKView) {
         
+        guard
+            let drawable = view.currentDrawable,
+            let commandBuffer = self.commandQueue.makeCommandBuffer(),
+            let commandEncoder = commandBuffer.makeComputeCommandEncoder() else { return }
+        
+        
+        
+        // Encode clear pass
+        commandEncoder.setComputePipelineState(self.clearPass)
+        commandEncoder.setTexture(drawable.texture, index: 0)
+        let w = self.clearPass.threadExecutionWidth  /// thread width of a group (number of columns aka px)
+        let h = self.clearPass.maxTotalThreadsPerThreadgroup / w  /// thread height of a group (number of rows aka px) limited by max possible amount of threads per group
+        var threadsPerGroup = MTLSize(width: w, height: h, depth: 1)
+        var gridSize = MTLSize(width: drawable.texture.width, height: drawable.texture.height, depth: 1) /// grid is composed of threadgroups and covers the whole texture
+        commandEncoder.dispatchThreads(gridSize, threadsPerThreadgroup: threadsPerGroup)
+        
+        
+        
+        // Encode draw pass
+        commandEncoder.setComputePipelineState(self.drawDotPass)
+        commandEncoder.setBuffer(self.particleBuffer, offset: 0, index: 0)
+        threadsPerGroup = MTLSize(width: w, height: 1, depth: 1)
+        gridSize = MTLSizeMake(Int(self.numParticles), 1, 1)
+        commandEncoder.dispatchThreads(gridSize, threadsPerThreadgroup: threadsPerGroup)
+        
+        commandEncoder.endEncoding()
+        commandBuffer.present(drawable)
+        commandBuffer.commit()
+        
     }
     
+
     
 }
