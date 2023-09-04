@@ -56,8 +56,8 @@ kernel void drawPassFcn(texture2d<half, access::write> texture [[texture(0)]],
     particles[particleID].position = position;
         
     /// draw updated position
-    uint2 texturePosition = uint2(pxPosition.x, pxPosition.y);
     half4 pxColor = getColorForPos(position);
+    uint2 texturePosition = uint2(pxPosition.x, pxPosition.y);
     texture.write(pxColor, texturePosition);
     texture.write(pxColor, texturePosition + uint2(1,0));
     texture.write(pxColor, texturePosition + uint2(0,1));
