@@ -37,6 +37,7 @@ kernel void drawPassFcn(texture2d<half, access::write> texture [[texture(0)]],
     float2 position = particles[particleID].position;
     float4 color = particles[particleID].color;
     
+    /// convert to pixel space
     float2 pxPosition = getPixelPosition(position, screenSize);
     
     if(pxPosition.x < 0 || pxPosition.x > pxWidth) velocity.x *= -1;
@@ -52,7 +53,7 @@ kernel void drawPassFcn(texture2d<half, access::write> texture [[texture(0)]],
     texture.write(pxColor, texturePosition - uint2(1,0));
     texture.write(pxColor, texturePosition - uint2(0,1));
     
-    /// Normalized space: update particle
+    /// convert to normalized space and update particle
     position = getNormalizedPosition(pxPosition, screenSize);
     particles[particleID].velocity = velocity;
     particles[particleID].position = position;
