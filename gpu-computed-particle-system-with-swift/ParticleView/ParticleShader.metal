@@ -43,7 +43,7 @@ kernel void drawPassFcn(texture2d<half, access::write> texture [[texture(0)]],
     float2 velocity = particles[particleID].velocity;
     float2 position = particles[particleID].position;
     
-    /// convert to pixel space
+    /// convert to pixel space & update pixel space position
     float2 pxPosition = getPixelPosition(position, screenSize);
     pxPosition += velocity;
     
