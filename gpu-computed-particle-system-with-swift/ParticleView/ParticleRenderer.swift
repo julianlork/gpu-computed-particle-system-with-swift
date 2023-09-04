@@ -73,8 +73,8 @@ class ParticleRenderer: NSObject {
         
         for _ in 0...numParticle {
             let particle = Particle(color: simd_float4(1, 1, 1, 1),
-                                    position: simd_float2(Float.random(in: 0...1), Float.random(in: 0...1)),  /// screen normalized coordinates where x=1 equals max width  and y=1 max height
-                                    velocity: simd_float2(Float.random(in: -1...1), Float.random(in: -1...1)))
+                                    position: simd_float2(Float.random(in: 0...1), Float.random(in: 0...1)),  /// normalized screen pos [0...1, 0...1]
+                                    velocity: simd_float2(Float.random(in: -1...1), Float.random(in: -1...1)))  /// velocity in [px / draw]
             particles.append(particle)
         }
         return particles
