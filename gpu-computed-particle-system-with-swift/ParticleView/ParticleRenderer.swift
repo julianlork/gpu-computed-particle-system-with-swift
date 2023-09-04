@@ -83,8 +83,6 @@ class ParticleRenderer: NSObject {
 
 extension ParticleRenderer: MTKViewDelegate {
     
-
-    
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
         
     }
