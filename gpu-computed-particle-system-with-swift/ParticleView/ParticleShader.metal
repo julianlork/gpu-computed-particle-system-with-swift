@@ -47,8 +47,8 @@ kernel void drawPassFcn(texture2d<half, access::write> texture [[texture(0)]],
     float2 pxPosition = getPixelPosition(position, screenSize);
     pxPosition += velocity;
     
-    if(pxPosition.x < 0 || pxPosition.x > pxWidth) velocity.x *= -1;
-    if(pxPosition.y < 0 || pxPosition.y > pxHeight) velocity.y *= -1;
+    if(pxPosition.x <= 0 || pxPosition.x >= pxWidth) velocity.x *= -1;
+    if(pxPosition.y <= 0 || pxPosition.y >= pxHeight) velocity.y *= -1;
     
     /// convert to normalized space and update particle
     position = getNormalizedPosition(pxPosition, screenSize);
