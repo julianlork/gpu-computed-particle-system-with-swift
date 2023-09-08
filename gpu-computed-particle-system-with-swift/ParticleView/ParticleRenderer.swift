@@ -15,6 +15,7 @@ class ParticleRenderer: NSObject {
     let commandQueue: MTLCommandQueue
     let clearPass: MTLComputePipelineState
     let drawDotPass: MTLComputePipelineState
+    let gaussianPass: MTLComputePipelineState
     let particleBuffer: MTLBuffer
     let numParticles: UInt
     
@@ -27,6 +28,7 @@ class ParticleRenderer: NSObject {
             let commandQueue = device.makeCommandQueue(),
             let particleBuffer = device.makeBuffer(bytes: particles, length: MemoryLayout<Particle>.stride * particles.count, options: .storageModeShared),
             let library = device.makeDefaultLibrary(),
+            let gaussianPass = ParticleRenderer.makeGaussianPassFcn(device, library),
             let clearPass = ParticleRenderer.makeClearPassFcn(device, library),
             let drawPass = ParticleRenderer.makeDrawPassFcn(device, library) else { fatalError("Particle Renderer initialization failed.") }
         
@@ -36,6 +38,7 @@ class ParticleRenderer: NSObject {
         self.clearPass = clearPass
         self.drawDotPass = drawPass
         self.numParticles = numParticle
+        self.gaussianPass = gaussianPass
         super.init()
 
         self.view.device = device
@@ -43,6 +46,19 @@ class ParticleRenderer: NSObject {
         self.view.delegate = self
     }
     
+    
+    class func makeGaussianPassFcn(_ device: MTLDevice, _ library: MTLLibrary) -> MTLComputePipelineState? {
+        
+        guard let gausPassFcn = library.makeFunction(name: "gausianPass") else {
+            fatalError()
+        }
+        
+        do {
+            return try device.makeComputePipelineState(function: gausPassFcn)
+        } catch {
+            return nil
+        }
+    }
     
     class func makeDrawPassFcn(_ device: MTLDevice, _ library: MTLLibrary) -> MTLComputePipelineState? {
         guard let drawPassFcn = library.makeFunction(name: "drawPassFcn") else {
@@ -102,6 +118,10 @@ extension ParticleRenderer: MTKViewDelegate {
         commandEncoder.setBuffer(self.particleBuffer, offset: 0, index: 0)
         self.encodeDrawPassThreads(cmdEncoder: commandEncoder)
         
+        commandEncoder.setComputePipelineState(self.gaussianPass)
+        self.encodeGaussPassThreads(cmdEncoder: commandEncoder, drawable: drawable)
+        
+        
         commandEncoder.endEncoding()
         commandBuffer.present(drawable)
         commandBuffer.commit()
@@ -119,6 +139,14 @@ extension ParticleRenderer: MTKViewDelegate {
         let threadgroupWidth = min(self.drawDotPass.maxTotalThreadsPerThreadgroup, Int(self.numParticles))  /// limit to number of particles
         let threadsPerGroup = MTLSize(width: threadgroupWidth, height: 1, depth: 1)
         let gridSize = MTLSize(width: Int(self.numParticles), height: 1, depth: 1)
+        cmdEncoder.dispatchThreads(gridSize, threadsPerThreadgroup: threadsPerGroup)
+    }
+    
+    func encodeGaussPassThreads(cmdEncoder: MTLComputeCommandEncoder, drawable: CAMetalDrawable) {
+        let threadgroupWidth = self.clearPass.threadExecutionWidth  /// thread width of a group (number of columns aka px)
+        let threadgroupHeight = self.clearPass.maxTotalThreadsPerThreadgroup / threadgroupWidth  /// thread height of a group (number of rows aka px) limited by max possible amount of threads per group
+        let threadsPerGroup = MTLSize(width: threadgroupWidth, height: threadgroupHeight, depth: 1)
+        let gridSize = MTLSize(width: drawable.texture.width, height: drawable.texture.height, depth: 1) /// grid is composed of threadgroups and covers the whole texture
         cmdEncoder.dispatchThreads(gridSize, threadsPerThreadgroup: threadsPerGroup)
     }
     
