@@ -44,6 +44,7 @@ class ParticleRenderer: NSObject {
         self.view.device = device
         self.view.framebufferOnly = false
         self.view.delegate = self
+        self.view.clearColor = MTLClearColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1.0)
     }
     
     
