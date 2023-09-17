@@ -10,7 +10,7 @@ Implementation of a simple particle system using Swift, SwiftUI and the Metal Sh
 
 ## Resources
 
-Concept: working with particles in Metal by metalkit.org  
+Underlying concept: working with particles in Metal by metalkit.org  
 https://metalkit.org/2017/09/30/working-with-particles-in-metal/
 https://metalkit.org/2017/10/31/working-with-particles-in-metal-part-2/  
 https://metalkit.org/2017/11/30/working-with-particles-in-metal-part-3/  
