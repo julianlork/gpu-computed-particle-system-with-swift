@@ -8,7 +8,7 @@ Frame capture showing 1e5 particles @ 60fps with conditional coloring:
 ![1e5 particles with conditinal color rendering](https://github.com/julianlork/gpu-computed-particle-system-with-swift/assets/118125250/5b0e580a-04fd-4489-9542-76ea29272795)
 
 
-## Resources
+## References and Further Reading
 
 Processing textures on a gpu by Apple  
 https://developer.apple.com/documentation/metal/compute_passes/processing_a_texture_in_a_compute_function  
