@@ -10,7 +10,13 @@ Implementation of a simple particle system using Swift, SwiftUI and the Metal Sh
 
 ## Resources
 
+Processing textures on a gpu by Apple  
+https://developer.apple.com/documentation/metal/compute_passes/processing_a_texture_in_a_compute_function  
+https://developer.apple.com/documentation/metal/textures/understanding_color-renderable_pixel_format_sizes  
+https://developer.apple.com/documentation/metal/textures/creating_and_sampling_textures  
+
+
 Underlying concept: working with particles in Metal by metalkit.org  
-https://metalkit.org/2017/09/30/working-with-particles-in-metal/
+https://metalkit.org/2017/09/30/working-with-particles-in-metal/  
 https://metalkit.org/2017/10/31/working-with-particles-in-metal-part-2/  
 https://metalkit.org/2017/11/30/working-with-particles-in-metal-part-3/  
