@@ -2,7 +2,7 @@
 Lookup project demonstrating how to compute and render basic particle systems.
 
 ## Introduction
-Implementation of a simple particle system using Swift, SwiftUI and the Metal Shading Language. This repository is meant as a knowledge archive demonstrating on how to create basic particle systems, a gaussian blur render pass and conditional coloring of particles.
+Implementation of a simple particle system using Swift, SwiftUI and the Metal Shading Language. This repository is meant as a knowledge archive demonstrating on how to create basic particle systems, a gaussian blur render pass and conditional / positional coloring of particles.
 
 ## Resources
 
