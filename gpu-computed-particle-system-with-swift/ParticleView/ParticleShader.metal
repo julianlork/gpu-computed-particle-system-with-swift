@@ -30,7 +30,7 @@ half4 getColorForPos(float2 normalizedPos) {
 kernel void clearPassFcn(texture2d<half, access::read_write> texture [[texture(0)]], uint2 pxID [[thread_position_in_grid]]) {
     
     half4 actPxColor = texture.read(pxID);
-    actPxColor -= half4(1.0, 1.0, 1.0, 0.0) * 0.05;
+    actPxColor -= half4(1.0, 1.0, 1.0, 0.0) * 0.005;
     actPxColor = max(actPxColor, half4(0.0, 0.0, 0.0, 1.0));
     
     texture.write(actPxColor, pxID);
@@ -87,15 +87,15 @@ kernel void gausianPass(texture2d<half, access::read_write> texture [[texture(0)
     
     for(int x=-2; x <= 2; x++) {
         for(int y=-2; y <= 2; y++) {
-            int despxX = pxX - x;
-            int despxY = pxY - y;
+            int actPxX = pxX - x;
+            int actPxY = pxY - y;
             float modifer = gaussianblur[x+2][y+2];
             half4 pxValue;
             
-            if(despxX < 0 || despxY < 0 || despxX > (int) texture.get_width() || despxY > (int) texture.get_height()){
+            if(actPxX < 0 || actPxY < 0 || actPxX > (int) texture.get_width() || actPxY > (int) texture.get_height()){
                 pxValue = texture.read(pxID);
             }else{
-                pxValue = texture.read(ushort2(despxX, despxY));
+                pxValue = texture.read(ushort2(actPxX, actPxY));
             }
             
             pxResult.x += pxValue.x * modifer;
