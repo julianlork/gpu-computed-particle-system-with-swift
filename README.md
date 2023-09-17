@@ -2,10 +2,21 @@
 Lookup project demonstrating how to compute and render basic particle systems.
 
 ## Overview
-Implementation of a simple particle system using Swift, SwiftUI and the Metal Shading Language. This repository is meant as a knowledge archive demonstrating how to create basic particle systems, how to implement a gaussian blur render pass and conditional / positional coloring of particles.
+Implementation of a simple particle system using Swift, SwiftUI and the Metal Shading Language. This repository is meant as a knowledge archive demonstrating how to create basic particle systems and perform basic modifications to that system. This project is composed of two branches which are described in the following.
 
-Frame capture showing 1e5 particles @ 60fps with conditional coloring:  
-![1e5 particles with conditinal color rendering](https://github.com/julianlork/gpu-computed-particle-system-with-swift/assets/118125250/5b0e580a-04fd-4489-9542-76ea29272795)
+### main branch  
+The main branch contains the basic implementation of the moving particle system. It consists of a clear pass that is responsible for resetting the texture and a draw pass that is responsible for computing and drawing the updated particle position to the texutre. The draw pass shader also implements a very simple collision model that simulates collisions with the view boundaries. Additionally a color picking logic has been implemented that increases the red-component of each particle as it gets closer to the vertical view boundaries.
+
+The following frame capture shows 1e5 particles at 60 frames per seconds:
+<img width="1295" alt="demo-main-branch" src="https://github.com/julianlork/gpu-computed-particle-system-with-swift/assets/118125250/de66858f-0169-435c-8846-d32a62ff2f08">
+
+### implement-gaussian-blur
+The implement-gaussian-blur branch extends the main-branch by a gaussian blur pass which is applied to the texture after the draw pass. Additionally the clear pass has been updated so that the particle trail becomes visible:
+
+The following frame capture shows 1e3 particles (for better visibility) at 60 frames per seconds:
+<img width="1295" alt="demo-gaussian-blur-with-trail" src="https://github.com/julianlork/gpu-computed-particle-system-with-swift/assets/118125250/e2125081-8bbf-4183-a6bb-6cc5ff8271b1">
+
+
 
 
 ## References and Further Reading
