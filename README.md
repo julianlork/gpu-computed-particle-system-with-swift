@@ -1,7 +1,7 @@
 # gpu-computed-particle-system-with-swift
 Lookup project demonstrating how to compute and render basic particle systems.
 
-## Introduction
+## Overview
 Implementation of a simple particle system using Swift, SwiftUI and the Metal Shading Language. This repository is meant as a knowledge archive demonstrating how to create basic particle systems, how to implement a gaussian blur render pass and conditional / positional coloring of particles.
 
 Frame capture showing 1e5 particles @ 60fps with conditional coloring:  
