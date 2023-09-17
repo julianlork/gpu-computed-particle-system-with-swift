@@ -2,7 +2,8 @@
 Lookup project demonstrating how to compute and render basic particle systems.
 
 ## Overview
-Implementation of a simple particle system using Swift, SwiftUI and the Metal Shading Language. This repository is meant as a knowledge archive demonstrating how to create basic particle systems and perform basic modifications to that system. This project is composed of two branches which are described in the following.
+Implementation of a simple particle system using Swift, SwiftUI and the Metal Shading Language. This repository is meant as a knowledge archive demonstrating how to create basic particle systems and perform basic modifications to that system.  
+This project is composed of two branches which are described in the following.
 
 ### main branch  
 The main branch contains the basic implementation of the moving particle system. It consists of a clear pass that is responsible for resetting the texture and a draw pass that is responsible for computing and drawing the updated particle position to the texture. The draw pass shader also implements a very simple collision model that simulates collisions with the view boundaries. Additionally a color selection logic has been implemented that increases the red-component of each particle as it gets closer to the vertical view boundaries.
